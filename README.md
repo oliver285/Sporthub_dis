@@ -9,9 +9,6 @@ Users will be able to create a unique account with username and password, and ha
 ## 2. Contributors
 
 - Oliver Murray
-- Alan Sevilla
-- Carter Cabbage
-- Lucas Chernoff
 
 ## 3. Technology Stack
 
