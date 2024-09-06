@@ -1,0 +1,129 @@
+<style>
+    .main {
+        height: 650px; /* Adjust based on your layout needs */
+        overflow-y: auto; /* Allows scrolling if content overflows */
+        padding: 20px; /* Spacing inside the container */
+        box-sizing: border-box; /* Includes padding and borders in the element's total height */
+    }
+
+    .accordion {
+        border: 1px solid #ddd; /* Light border for visual separation */
+        border-radius: 8px; /* Rounded corners */
+        margin-bottom: 20px; /* Space between sections */
+    }
+
+    .accordion-item {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .accordion-header {
+        background-color: #f1f1f1;
+        padding: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .accordion-body {
+        display: none;
+        padding: 10px;
+    }
+
+    .accordion-body p, .accordion-body div {
+        margin: 5px 0;
+    }
+
+    .accordion-body.active {
+        display: block;
+    }
+</style>
+
+<main class="main">
+    <div class="accordion">
+        <!-- Upcoming Game -->
+        <div class="accordion-item">
+            <div class="accordion-header">Upcoming Game</div>
+            <div class="accordion-body">
+                <table>
+                    <tr>
+                        <th>Game ID</th>
+                        <td>{{data.GameID}}</td>
+                    </tr>
+                    <tr>
+                        <th>Season</th>
+                        <td>{{data.Season}}</td>
+                    </tr>
+                    <tr>
+                        <th>Week</th>
+                        <td>{{data.Week}}</td>
+                    </tr>
+                    <tr>
+                        <th>Date</th>
+                        <td>{{data.Day}}</td>
+                    </tr>
+                    <tr>
+                        <th>Away Team</th>
+                        <td>{{data.AwayTeam}}</td>
+                    </tr>
+                    <tr>
+                        <th>Home Team</th>
+                        <td>{{data.HomeTeam}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Betting Market Splits -->
+        <div class="accordion-item">
+            <div class="accordion-header">Betting Market Splits</div>
+            <div class="accordion-body">
+                {{#each data.BettingMarketSplits}}
+                    <div>
+                        <h3>Betting Market ID: {{this.BettingMarketID}} - {{this.BettingMarketType}}</h3>
+                        <table>
+                            <tr>
+                                <th>Betting Market Type</th>
+                                <td>{{this.BettingMarketType}}</td>
+                            </tr>
+                            <tr>
+                                <th>Betting Bet Type</th>
+                                <td>{{this.BettingBetType}}</td>
+                            </tr>
+                            <tr>
+                                <th>Betting Period Type</th>
+                                <td>{{this.BettingPeriodType}}</td>
+                            </tr>
+                        </table>
+
+                        <h4>Betting Splits</h4>
+                        <table>
+                            <tr>
+                                <th>Outcome Type</th>
+                                <th>Bet Percentage</th>
+                                <th>Money Percentage</th>
+                            </tr>
+                            {{#each this.BettingSplits}}
+                                <tr>
+                                    <td>{{this.BettingOutcomeType}}</td>
+                                    <td>{{this.BetPercentage}}%</td>
+                                    <td>{{this.MoneyPercentage}}%</td>
+                                </tr>
+                            {{/each}}
+                        </table>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
+
+        <!-- Team Trends for MIA -->
+       
+   
+</main>
+
+<script>
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const body = header.nextElementSibling;
+            body.classList.toggle('active');
+        });
+    });
+</script>

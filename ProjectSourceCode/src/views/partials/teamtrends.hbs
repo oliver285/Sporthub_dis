@@ -1,0 +1,86 @@
+<style>
+    .main {
+        height: 650px; /* Adjust based on your layout needs */
+        overflow-y: auto; /* Allows scrolling if content overflows */
+        padding: 20px; /* Spacing inside the container */
+        box-sizing: border-box; /* Includes padding and borders in the element's total height */
+    }
+
+    .accordion {
+        border: 1px solid #ddd; /* Light border for visual separation */
+        border-radius: 8px; /* Rounded corners */
+        margin-bottom: 20px; /* Space between sections */
+    }
+
+    .accordion-item {
+        border-bottom: 1px solid #ddd;
+    }
+
+    .accordion-header {
+        background-color: #f1f1f1;
+        padding: 10px;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .accordion-body {
+        display: none;
+        padding: 10px;
+    }
+
+    .accordion-body p, .accordion-body div {
+        margin: 5px 0;
+    }
+
+    .accordion-body.active {
+        display: block;
+    }
+</style>
+
+<main class="main">
+    <div class="accordion">
+        <div class="accordion-item">
+            <div class="accordion-header">Team Trends for {{team}}</div>
+            <div class="accordion-body">
+                <h2>Upcoming Game</h2>
+                {{#if data.UpcomingGame}}
+                    <p><strong>Date:</strong> {{data.UpcomingGame.DateTime}}</p>
+                    <p><strong>Teams:</strong> {{data.UpcomingGame.AwayTeamName}} vs {{data.UpcomingGame.HomeTeamName}}</p>
+                    <p><strong>Channel:</strong> {{data.UpcomingGame.Channel}}</p>
+                {{else}}
+                    <p>No upcoming game data available.</p>
+                {{/if}}
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Team Game Trends</div>
+            <div class="accordion-body">
+                {{#if data.TeamGameTrends.length}}
+                    {{#each data.TeamGameTrends}}
+                        <div class="trend">
+                            <h3>{{this.Scope}}</h3>
+                            <p><strong>Wins:</strong> {{this.Wins}}</p>
+                            <p><strong>Losses:</strong> {{this.Losses}}</p>
+                            <p><strong>Average Score:</strong> {{this.AverageScore}}</p>
+                            <p><strong>Average Opponent Score:</strong> {{this.AverageOpponentScore}}</p>
+                        </div>
+                    {{/each}}
+                {{else}}
+                    <p>No team game trends available.</p>
+                {{/if}}
+            </div>
+        </div>
+
+        <!-- Add more accordion items as needed -->
+    </div>
+</main>
+
+<script>
+    document.querySelectorAll('.accordion-header').forEach(header => {
+        header.addEventListener('click', () => {
+            const body = header.nextElementSibling;
+            body.classList.toggle('active');
+        });
+    });
+</script>

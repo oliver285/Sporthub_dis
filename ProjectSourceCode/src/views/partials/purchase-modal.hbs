@@ -1,0 +1,95 @@
+<div class="modal" id="purchaseModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{data.title}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" id="purchaseModalBody">
+        <div class="card">
+          <div class="card-body">
+            <p class="card-title">${{product_price}}</p>
+          </div>
+        </div>
+        <div id="paypal-button-container"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function postData(isStock) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "/submit-purchase", true);
+    xhr.setRequestHeader('Content-Type', 'application/json');
+    xhr.send(JSON.stringify({
+      isStock: isStock,
+      stock_id: {{ stock_id }},
+  product_id: { { product_id } },
+    }));
+   }
+  paypal.Buttons({
+    style: {
+      shape: 'pill',
+    },
+    createOrder: function (data, actions) {
+      // This function sets up the details of the transaction, including the amount and line item details.
+      return actions.order.create({
+        reference_id: '{{product_name}}',
+        description: '{{product_name}}',
+        purchase_units: [{
+          amount: {
+            value: '{{product_price}}.00',
+            currency_code: 'USD',
+            breakdown: {
+              item_total: { value: '{{product_price}}', currency_code: 'USD' }
+            }
+          },
+          items: [{
+            name: 'Spanish Class Registration Fee',
+            unit_amount: { value: '{{product_price}}.00', currency_code: 'USD' },
+            quantity: '1',
+          }]
+        }],
+        application_context: {
+          shipping_preference: 'NO_SHIPPING'
+        }
+      });
+    },
+    onApprove: function (data, actions) {
+      return actions.order.capture().then(function (details) {
+        $("#purchaseModal").modal('hide');
+        postData({{ isStock }});
+      if ({{ isStock }
+    } == 1){
+    Swal.fire({
+      'title': 'Payment Received!',
+      'text': 'Your shares have been purchased! Your profile will reflect all purchased shares.',
+      'type': 'success'
+    }).then((button) => {
+      if (button) {
+        setTimeout(' window.location.href =  "/profile"', 0);
+      }
+    });
+  }
+                  else {
+    Swal.fire({
+      'title': 'Payment Received!',
+      'text': 'Your item will be shipped in 2-4 business days. USPS Tracking #: 9649 3110 2374 6102 7765',
+      'type': 'success'
+    }).then((button) => {
+      if (button) {
+        setTimeout(' window.location.href =  "/profile"', 0);
+      }
+    });
+  }
+                });
+            },
+  onError: function(err) {
+    Swal.fire({
+      'title': 'Error',
+      'text': 'We are unable to complete your payment at this time. This could be due to a declined transaction, poor internet connection, or another issue. Please try again.',
+      'type': 'error'
+    }).then((button2) => { })
+  }
+  }).render('#paypal-button-container');
+</script>

@@ -1,0 +1,400 @@
+<div id="profile-container">
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <div class="row">
+                        <div class="col" id="profile-picture-column">
+                            {{#isNull img_path}}
+                            <img id="profilePicture" src="../../resources/img/default-profile.png"
+                                alt="Default Profile Picture">
+                            {{else}}
+                            <img id="profilePicture" src="{{img_path}}" alt="Profile Picture">
+                            {{/isNull}}
+                            <button data-bs-toggle="modal" data-bs-target="#pictureModal" class="btn btn-secondary"><i
+                                    class="fa-solid fa-pencil fa-lg"></i></button>
+                        </div>
+                        <div class="col" id="profile-info-column">
+                            <div>
+                                <h1>{{first_name}} {{last_name}}</h1>
+                                <h3 class="text-muted">@{{username}}</h3>
+                                {{#if first_name}}
+                                <h6><span class="badge text-bg-primary"><i class="fa-solid fa-circle-check"></i>
+                                        Verified User</span></h6>
+                                {{/if}}
+                                {{#if vendor_id}}
+                                <h6><span class="badge text-bg-success"><i class="fa-solid fa-circle-check"></i>
+                                        Verified Vendor</span></h6>
+                                {{/if}}
+                                {{#if account_balance}}
+                                {{#notEqual account_balance 0}}
+                                <h6><span class="badge text-bg-warning"><i class="fa-solid fa-dollar-sign"></i> Top
+                                        Seller</span></h6>
+                                {{/notEqual}}
+                                {{/if}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="profile-teams-row">
+                        <div class="card">
+                            <div class="card-body">
+                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#teamModal"><i
+                                        class="fa-solid fa-pencil fa-lg"></i></button>
+                                <p>Favorite Teams</p>
+                                <div class="row" id="teams-icon-row">
+                                    {{#if user_team_data.[0]}}
+                                    {{#each user_team_data}}
+                                    <div class="col">
+                                        <img src="../../resources/img/{{this.img_path}}" alt="{{this.team_name}}">
+                                    </div>
+                                    {{/each}}
+                                    {{else}}
+                                    <div class="col">
+                                        <p>Click the pencil icon to select your favorite teams!</p>
+                                    </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row float-end" id="profile-date-row">
+                        <div>
+                            <h5 id="member-since"></h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col" id="profile-right-column">
+                    {{#if vendor_id}}
+                    <div class="row" id="profile-vendor-row">
+                        <div class="col" id="account-balance-column">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p>Account Balance</p>
+                                    <h1 id="accountBalance"></h1>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col" id="for-sale-column">
+                            <div class="card">
+                                <div class="card-body">
+                                    {{!-- <a href="/items_for_sale" class="btn btn-info"><i class="fa-solid fa-arrow-right fa-lg"></i></a> --}}
+                                    <p>Items For Sale</p>
+                                    <div class="row">
+                                        {{#if for_sale_data.[0]}}
+                                        {{#each for_sale_data}}
+                                        <div class="col">
+                                            <img src="{{this}}">
+                                        </div>
+                                        {{/each}}
+                                        {{else}}
+                                        <div class="col">
+                                            <a href="/sell-item" class="btn btn-success" id="sellButton">Sell your first item!</a>
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    <div class="row" id="profile-no-vendor-row">
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p><i class="fa-solid fa-circle-exclamation fa-lg"></i> Your account has not yet
+                                        been approved to sell items on the <a href="/marketplace">Community
+                                            Marketplace</a></p>
+                                    <a href="/add-vendor" class="btn btn-success">Become a SportHub Vendor Today!</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {{/if}}
+                    <div class="row" id="profile-form-row">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="/edit-user" method="POST" class="row needs-validation" novalidate>
+                                    <div class="col-md-6 mt-0">
+                                        <label for="firstName" class="form-label">First Name</label>
+                                        <input type="text" class="form-control" name="first_name" id="firstName"
+                                            value="{{first_name}}" placeholder="First Name" required>
+                                    </div>
+                                    <div class="col-md-6 mt-0">
+                                        <label for="lastName" class="form-label">Last name</label>
+                                        <input type="text" class="form-control" name="last_name" id="lastName"
+                                            value="{{last_name}}" placeholder="Last Name" required>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="userName" class="form-label">Username</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="inputGroupPrepend">@</span>
+                                            <input type="text" class="form-control" name="username" id="userName"
+                                                value="{{username}}" placeholder="Username"
+                                                aria-describedby="inputGroupPrepend" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 mt-0">
+                                        <button class="btn btn-primary float-end" type="submit"
+                                            id="profile-form-submit-button">Save Changes</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="profile-purchase-history-row">
+                        <div class="card">
+                            <div class="card-body">
+                                {{!-- <a href="/purchase_history" class="btn btn-info"><i class="fa-solid fa-arrow-right fa-lg"></i></a> --}}
+                                <p>Purchase History</p>
+                                <div class="row">
+                                    {{#if history_data.[0]}}
+                                    {{#each history_data}}
+                                    {{#isEqual this.fromVendor 0}}
+                                        <div class="col">
+                                            <img src="{{this.img_path}}">
+                                        </div>
+                                    {{else}}
+                                        <div class="col">
+                                            <img src="../../resources/img/{{this.img_path}}">
+                                        </div>
+                                    {{/isEqual}}
+                                    {{/each}}
+                                    {{else}}
+                                    <div class="col">
+                                        <p>No purchase history yet.</p>
+                                    </div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row float-end" id="profile-button-row">
+                        <div>
+                            <button data-bs-toggle="modal" data-bs-target="#deleteModal" class="btn btn-danger">Delete
+                                Account</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="pictureModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Change Profile Picture</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <div id="upload-demo"></div>
+                    <label for="upload" class="form-label">Upload File</label>
+                    <input class="form-control" type="file" id="upload">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="pictureSubmit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="submitPictureModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Submit This Profile Picture?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="submitModalBody" class="modal-body">
+                <img src="" id="submitPictureImage">
+            </div>
+            <div class="modal-footer">
+                <button id="pictureSubmitNo" class="btn btn-danger">No</button>
+                <form action="/submit-profile-picture" method="POST">
+                    <input id="pictureInput" type="text" name="picture" value="" hidden>
+                    <button type="submit" class="btn btn-primary">Yes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Delete Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="deleteAccountBody">
+                <h6>Are you sure you want to delete your account?</h6>
+                <h6>This action cannot be undone.</h6>
+                <div class="row">
+                    <div class="col col-md-6">
+                        <button class="btn btn-primary" data-bs-dismiss="modal">No</button>
+                    </div>
+                    <div class="col col-md-6">
+                        <a href="/delete-account" class="btn btn-danger">Yes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="teamModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Favorite Teams</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="accordion" id="teamAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                                NFL
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#teamAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    {{#each team_data}}
+                                    {{#isEqual this.team_type "NFL"}}
+                                    <div class="col col-md-4">
+                                        <div id="team{{this.team_id}}" class="team">
+                                            <img class="team-image" src="../../resources/img/{{this.img_path}}"
+                                                alt="Team Picture">
+                                        </div>
+                                    </div>
+                                    {{/isEqual}}
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                NBA
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#teamAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    {{#each team_data}}
+                                    {{#isEqual this.team_type "NBA"}}
+                                    <div class="col col-md-4">
+                                        <div id="team{{this.team_id}}" class="team">
+                                            <img class="team-image" src="../../resources/img/{{this.img_path}}"
+                                                alt="Team Picture">
+                                        </div>
+                                    </div>
+                                    {{/isEqual}}
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                MLB
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#teamAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    {{#each team_data}}
+                                    {{#isEqual this.team_type "MLB"}}
+                                    <div class="col col-md-4">
+                                        <div id="team{{this.team_id}}" class="team">
+                                            <img class="team-image" src="../../resources/img/{{this.img_path}}"
+                                                alt="Team Picture">
+                                        </div>
+                                    </div>
+                                    {{/isEqual}}
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                FIFA
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#teamAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    {{#each team_data}}
+                                    {{#isEqual this.team_type "FIFA"}}
+                                    <div class="col col-md-4">
+                                        <div id="team{{this.team_id}}" class="team">
+                                            <img class="team-image" src="../../resources/img/{{this.img_path}}"
+                                                alt="Team Picture">
+                                        </div>
+                                    </div>
+                                    {{/isEqual}}
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                                NHL
+                            </button>
+                        </h2>
+                        <div id="collapseFive" class="accordion-collapse collapse" data-bs-parent="#teamAccordion">
+                            <div class="accordion-body">
+                                <div class="row">
+                                    {{#each team_data}}
+                                    {{#isEqual this.team_type "NHL"}}
+                                    <div class="col col-md-4">
+                                        <div id="team{{this.team_id}}" class="team">
+                                            <img class="team-image" src="../../resources/img/{{this.img_path}}"
+                                                alt="Team Picture">
+                                        </div>
+                                    </div>
+                                    {{/isEqual}}
+                                    {{/each}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div>
+                    <h5 id="teamCounter">0/5</h5>
+                </div>
+                <form action="/edit-teams" method="POST">
+                    <input id="teamsInput" type="text" name="teams" value="" hidden>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../../resources/js/profile.js"></script>
+<script>
+    var dateString = "SportHub member since " + stampToTime("{{date}}");
+    document.getElementById('member-since').innerHTML = dateString;
+    {{#if vendor_id}}
+    var balanceString = "$" + numberWithCommas({{ account_balance }});
+    document.getElementById('accountBalance').innerHTML = balanceString;
+    {{/if }}
+    {{#each user_team_data}}
+    $('#team' + "{{this.team_id}}").addClass("team-selected");
+    {{/each }}
+    updateTeamCounter();
+    updateTeamInput(null, null);
+</script>

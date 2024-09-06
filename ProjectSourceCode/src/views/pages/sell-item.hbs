@@ -1,0 +1,60 @@
+<div id="sellItemContainer" style="padding: 1rem;">
+    <div class="card" style="height: calc(84vh - 2rem);">
+        <div class="card-body">
+            <form action="javascript:;" onsubmit=" postData() " class="row needs-validation" novalidate>
+                <div class="col">
+                    <h1>Sell an Item</h1>
+                    <div class="input-group mb-3">
+                        <div id="upload-demo"></div>
+                        <label for="upload" class="form-label" style="width: -webkit-fill-available;">Item Image</label>
+                        <input class="form-control" type="file" id="upload" required>
+                        <input type="hidden" name="pictureInput" id="pictureInput" required>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="input-group mb-3">
+                        <label for="itemName" class="form-label" style="width: -webkit-fill-available;">Item Name</label>
+                        <input class="form-control" type="text" name="itemName" id="itemName" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="itemType">Item Type</label>
+                        <select class="form-select" name="itemType" id="itemType" required>
+                            <option selected disabled value="">Choose...</option>
+                            <option value="apparel">Apparel</option>
+                            <option value="equipment">Equipment</option>
+                            <option value="accessories">Accessories</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label class="input-group-text" for="league">League</label>
+                        <select class="form-select" name="league" id="league" required>
+                            <option selected disabled value="">Choose...</option>
+                            <option value="NFL">NFL</option>
+                            <option value="NBA">NBA</option>
+                            <option value="MLB">MLB</option>
+                            <option value="FIFA">FIFA</option>
+                            <option value="NHL">NHL</option>
+                        </select>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="itemPrice" class="form-label" style="width: -webkit-fill-available;">Price</label>
+                        <input class="form-control" type="number" name="itemPrice" id="itemPrice" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="itemQuantity" class="form-label" style="width: -webkit-fill-available;">Quantity</label>
+                        <input class="form-control" type="number" name="itemQuantity" id="itemQuantity" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <label for="itemDescription" class="form-label" style="width: -webkit-fill-available;">Description</label>
+                        <input class="form-control" type="text" name="itemDescription" id="itemDescription" required>
+                    </div>
+                    <div class="input-group mb-3">
+                        <button class="btn btn-primary float-end" type="submit"
+                            id="submitItem">Submit Item</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="../../resources/js/sell-item.js"></script>

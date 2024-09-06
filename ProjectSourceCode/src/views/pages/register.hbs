@@ -1,0 +1,41 @@
+<div style="position: absolute; top: 10%;">
+    {{> message}}
+</div>
+<div class="container" id="registration">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="text-center">
+                <form class="form" action="/register" method="post">
+                    <img class="mt-5 mb-3 rounded" src="../../resources/img/Sport-Hub.png" alt="Sportshub Logo">
+                    <h1 class="h3 mb-3 font-weight-normal"> Register for Sporthub</h1>
+                    <div id="firstname_register_form" class="form-group">
+                        <label for="first-name_field">First name</label>
+                        <input name="first_name" type="text" id="first-name_field" class="form-control"
+                            placeholder="John" required autofocus>
+                    </div>
+                    <div id="lastname_register_form" class="form-group">
+                        <label for="last-name_field">Last name</label>
+                        <input name="last_name" type="text" id="last-name_field" class="form-control" placeholder="Doe"
+                            required autofocus>
+                    </div>
+                    <div id="username_register_form" class="form-group">
+                        <label for="username_field">Username</label>
+                        <input name="username" type="text" id="username_field" class="form-control"
+                            placeholder="johndoe182!" required autofocus>
+                    </div>
+                    <div id="email_register_form" class="form-group">
+                        <label for="email_field">Email</label>
+                        <input name="email" type="email" id="email_field" class="form-control"
+                            placeholder="johndoe@gmail.com" required autofocus>
+                    </div>
+                    <div id="pwd_register_form" class="form-group">
+                        <label for="pwd_field">Password</label>
+                        <input name="password" type="password" id="pwd_field" class="form-control"
+                            placeholder="*********" required autofocus>
+                    </div>
+                    <button type="submit" id = "register_button">Register</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

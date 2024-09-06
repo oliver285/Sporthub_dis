@@ -1,0 +1,74 @@
+DROP TABLE IF EXISTS users CASCADE;
+CREATE TABLE IF NOT EXISTS users (
+  user_id SERIAL PRIMARY KEY NOT NULL,
+  first_name VARCHAR(50) NOT NULL,
+  last_name VARCHAR(50) NOT NULL,
+  username VARCHAR(100) NOT NULL,
+  password VARCHAR(100) NOT NULL,
+  email VARCHAR(200) NOT NULL,
+  img_path TEXT,
+  time_registered TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS vendors CASCADE;
+CREATE TABLE IF NOT EXISTS vendors (
+  vendor_id SERIAL PRIMARY KEY NOT NULL,
+  user_id INT NOT NULL,
+  account_balance INT NOT NULL,
+  time_registered TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+DROP TABLE IF EXISTS teams CASCADE;
+CREATE TABLE IF NOT EXISTS teams (
+  team_id SERIAL PRIMARY KEY NOT NULL,
+  team_name VARCHAR(50) NOT NULL,
+  team_type VARCHAR(50) NOT NULL,
+  img_path VARCHAR(100) NOT NULL
+);
+
+DROP TABLE IF EXISTS users_to_teams CASCADE;
+CREATE TABLE IF NOT EXISTS users_to_teams (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INT NOT NULL,
+  team_id INT NOT NULL
+);
+
+DROP TABLE IF EXISTS products CASCADE;
+CREATE TABLE IF NOT EXISTS products (
+  product_id SERIAL PRIMARY KEY NOT NULL,
+  product_name VARCHAR(50) NOT NULL,
+  product_type VARCHAR(50) NOT NULL,
+  product_tags VARCHAR(500) NOT NULL,
+  price INT NOT NULL,
+  quantity INT NOT NULL,
+  img_path TEXT NOT NULL,
+  description VARCHAR(200) NOT NULL,
+  --nSold INT NOT NULL,
+  fromVendor INT NOT NULL
+);
+
+DROP TABLE IF EXISTS vendors_to_products CASCADE;
+CREATE TABLE IF NOT EXISTS vendors_to_products (
+  id SERIAL PRIMARY KEY NOT NULL,
+  vendor_id INT NOT NULL,
+  product_id INT NOT NULL
+);
+
+DROP TABLE IF EXISTS purchase_history CASCADE;
+CREATE TABLE IF NOT EXISTS purchase_history (
+  id SERIAL PRIMARY KEY NOT NULL,
+  user_id INT NOT NULL,
+  product_id INT NOT NULL,
+  time_purchased TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+);
+
+
+
+DROP TABLE IF EXISTS stocks CASCADE;
+CREATE TABLE stocks (
+  ticker VARCHAR PRIMARY KEY,
+  timestamps VARCHAR(100)[],
+  closeprices FLOAT[],
+  tradingVolume INT[],
+  openprice NUMERIC[]
+);

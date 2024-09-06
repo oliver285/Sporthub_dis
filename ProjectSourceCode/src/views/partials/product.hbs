@@ -1,0 +1,24 @@
+{{#renderPurchase "Pay For Your Item" product.product_name product.price 0 product.product_id "null"}}
+{{/renderPurchase}}
+<div class="row product-page">
+        <div class="col col-md-6">
+                {{#isEqual mp_product 0}}
+                <img src="../../resources/img/{{product.img_path}}" alt="Product Image">
+                {{/isEqual}}
+                {{#isEqual mp_product 1}}
+                <img src="{{product.img_path}}" alt="Product Image">
+                {{/isEqual}}
+        </div>
+        <div class="col col-md-6 store-info-col">
+                <div class="store-info-container">
+                        <h1>{{product.product_name}}</h1>
+                        <p>{{product.description}}</p>
+                        <h1>${{product.price}}</h1>
+                        {{#isEqual product.quantity 0}}
+                        <button class="btn btn-success" disabled>Sold Out</button>
+                        {{else}}
+                        <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#purchaseModal">Buy Now</button>
+                        {{/isEqual}}
+                </div>
+        </div>
+</div>

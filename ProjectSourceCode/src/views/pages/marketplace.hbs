@@ -1,0 +1,145 @@
+<div id="storeContainer">
+  <div class="card">
+    <div class="card-body">
+      <aside id="sidebar">
+        <div class="h-100">
+          <div class="sidebar-logo">
+            <h3 class="pe-3">Sporthub</h3>
+            <i class="fa-solid fa-tags"></i>
+          </div>
+          <!-- Sidebar Navigation -->
+          <ul class="sidebar-nav">
+            <li class="sidebar-item">
+              <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#leagues"
+                aria-expanded="false" aria-controls="leagues">
+                <i class="fa-solid fa-trophy pe-2"></i>
+                Leagues
+              </a>
+              <ul id="leagues" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <li class="sidebar-item">
+                  <a href="/store?tags=NFL" class="sidebar-link">NFL</a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/store?tags=MLB" class="sidebar-link">MLB</a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/store?tags=NBA" class="sidebar-link">NBA</a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/store?tags=FIFA" class="sidebar-link">FIFA</a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/store?tags=NHL" class="sidebar-link">NHL</a>
+                </li>
+              </ul>
+            </li>
+            <li class="sidebar-item">
+              <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#products"
+                aria-expanded="false" aria-controls="products">
+                <i class="fa-solid fa-shirt pe-2"></i>
+                Products
+              </a>
+              <ul id="products" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <li class="sidebar-item">
+                  <a href="/store?type=apparel" class="sidebar-link">Apparel</a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/store?type=equipment" class="sidebar-link">Equipment</a>
+                </li>
+                <li class="sidebar-item">
+                  <a href="/store?type=accessories" class="sidebar-link">Accessories</a>
+                </li>
+              </ul>
+            </li>
+            <li class="sidebar-item">
+              <a href="#" class="sidebar-link collapsed" data-bs-toggle="collapse" data-bs-target="#filter-by"
+                aria-expanded="false" aria-controls="filter-by">
+                <i class="fa-solid fa-sliders pe-2"></i>
+                Filter by
+              </a>
+              <ul id="filter-by" class="sidebar-dropdown list-unstyled collapse" data-bs-parent="#sidebar">
+                <li class="sidebar-header">
+                  Cost
+                </li>
+                <li class="sidebar-filter">
+                  Min:
+                  <div style="display: flex; align-items: center;">
+                    <input type="range" class="form-range pe-4" min="0" max="1000" step="10" id="min-range"
+                      oninput="minrangeValue.innerText = this.value">
+                    <p id="minrangeValue">0</p>
+                  </div>
+                </li>
+                <li class="sidebar-filter">
+                  Max:
+                  <div style="display: flex; align-items: center;">
+                    <input type="range" class="form-range pe-4" min="0" max="1000" step="10" id="max-range"
+                      oninput="maxrangeValue.innerText = this.value">
+                    <p id="maxrangeValue">0</p>
+                  </div>
+                </li>
+                <li class="sidebar-filter">
+                  <a href="" class="btn btn-primary" id="applyFilter">Apply Filter</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </aside>
+      <div id="storeContent" class="main-content">
+        <div class="card-container">
+          <div class="card">
+            <div id="store-card-header" class="card-header">
+                <h2 class="navbar-brand">Marketplace</h2>
+                {{#if vendor_id}}
+                    {{#notEqual vendor_id null}}
+                    <a href="/sell-item" class="btn btn-success">Sell an Item</a>
+                    {{/notEqual}}
+                {{/if}}
+                <div id="storeSearch">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="searchField">
+                  <a href="" class="btn btn-primary" id="searchButton">Search</a>
+                </div>
+            </div>
+            <div class="card-body card-store">
+              {{#if product}}
+              {{> product}}
+              {{else}}
+              {{#if product_results.[0]}}
+                {{#each product_results}}
+                {{#if @first}}
+                <div class="row">
+                    {{/if}}
+                    <div id="productColumn" class="col-md-3 col-lg-3">
+                    <a class="card product-card product-link" href="/marketplace?product_id={{this.product_id}}">
+                        <img class="card-img-top" src="{{this.img_path}}" alt="Product Image">
+                        <div class="card-body">
+                        <div class="row">
+                            <div class="col col-md-9">
+                            <h5 class="card-title">{{product_name}}</h5>
+                            </div>
+                            <div class="col col-md-3">
+                            <span class="badge text-bg-success">${{price}}</span>
+                            </div>
+                        </div>
+                        </div>
+                    </a>
+                    </div>
+                    {{#if @last}}
+                </div>
+                {{else if (eq (mod @index 4) 3)}}
+                </div>
+                <div class="row">
+                {{/if}}
+                {{/each}}
+                {{else}}
+                <h4>No vendors have posted an item for sale yet.</h4>
+                {{/if}}
+              {{/if}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../resources/js/store.js"></script>

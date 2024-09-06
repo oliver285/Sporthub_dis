@@ -1,0 +1,77 @@
+
+
+
+
+
+
+<canvas id="stockChart" width="400" height="200"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    /* Ensure the canvas element has a size */
+    canvas {
+      width: 100%;
+      height: 400px;
+    }
+  </style>
+</head>
+<script>
+  async function fetchStockData(ticker) {
+    try {
+      const response = await fetch(`/stocks/api?ticker=${ticker}`);
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status} ${response.statusText}`);
+      }
+      console.log(response);
+      const data = await response.json();
+      console.log("Fetched data:", data); // Debugging statement
+      return data;
+    } catch (error) {
+      console.error("Error fetching stock data:", error); // Error handling
+    }
+  }
+
+  async function createChart(ticker) {
+    const response = await fetchStockData(ticker);
+    console.log(response);
+    if (!response) {
+      console.error("No data returned from fetchStockData");
+      return;
+    }
+
+
+
+  
+    const ctx = document.getElementById('stockChart').getContext('2d');
+    const labels = response.timestamps;
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'AAPL Stock Price',
+    data: response.closePrices,
+    fill: false,
+    borderColor: 'rgb(75, 192, 192)',
+    tension: 0.1
+  }]
+};
+const config = {
+  type: 'line',
+  data: data,
+};
+   const chart = new Chart(ctx, config);
+
+      console.log("Chart created:", chart); 
+  }
+
+    // Add event listener to carousel indicators
+    document.querySelectorAll('.carousel-indicators button').forEach(indicator => {
+        indicator.addEventListener('click', (event) => {
+            const ticker = event.target.getAttribute('data-ticker');
+            createChart(ticker);
+        });
+    });
+createChart('AAPL')
+</script>
+
+
