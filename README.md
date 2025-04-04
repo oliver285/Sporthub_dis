@@ -50,4 +50,4 @@ BETTING_SPLIT_API_KEY = "4a43fbe39b644597859730d456c898a1"
 2. Insure the 'command' in the web container is set to: 'npm run testandrun' :
    ![Alt text](/src/resources/img/dockercompose.png)
 
-## 8. Link to deployed application
+
